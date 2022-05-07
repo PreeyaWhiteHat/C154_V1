@@ -106,6 +106,8 @@ terrainEl.appendChild(birdEl);
 birdEl.setAttribute("id", id);
 
 birdEl.setAttribute("position", position);
+
+ flyingBirds: (id, position) 
 ----------------------------------------------
 Step 11
 
