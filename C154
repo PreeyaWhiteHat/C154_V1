@@ -101,6 +101,11 @@ var terrainEl = document.querySelector("#terrain");
 
 //append the bird entity as the child of the terrain entity
 terrainEl.appendChild(birdEl);
+
+//Setting multiple attributes
+birdEl.setAttribute("id", id);
+
+birdEl.setAttribute("position", position);
 ----------------------------------------------
 Step 11
 
