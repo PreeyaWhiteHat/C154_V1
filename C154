@@ -1,0 +1,131 @@
+Step 1 
+
+Create a new file Target.js
+
+
+AFRAME.registerComponent("target-ring", {
+  init: function () {
+  },
+  
+   createRings: function(id, position) { 
+   
+   
+   }
+})
+
+-------------------------------------
+step 2 
+
+    var ringEl = document.createElement("a-entity");
+
+    ringEl.setAttribute("material","color","#ff9100");
+    
+    ringEl.setAttribute("geometry",{ primitive: "torus",radius: 8 });   
+--------------------------------------------------------
+step 3
+
+  var terrainEl = document.querySelector("#terrain");
+   
+   terrainEl.appendChild(ringEl);
+--------------------------------------------------------
+Step 4
+
+for (var i = 1; i <= 20; i++) {
+      //id
+      var id = `ring${i}`;
+
+      //position variables   
+      var posX =(Math.random() * 3000 + (-1000));      
+      var posY = (Math.random() * 2 + (-1));
+      var posZ = (Math.random() * 3000 + -1000);
+
+      var position = { x: posX, y: posY, z: posZ };
+     
+    }
+---------------------------------------------------
+Step 5
+
+ringEl.setAttribute("id",id);
+ringEl.setAttribute("position",position);
+
+//call the function
+this.createRings(id, position);
+---------------------------------------------------
+Step 6
+ <script src="./components/Target.js"></script>
+in index.html in Terrain entity
+
+ target-ring
+ --------------------------------------------- 
+Step 7
+
+create a file called Collider.js
+
+
+AFRAME.registerComponent("flying-birds", {
+  init: function () {
+  },
+  
+    flyingBirds: () => {
+   
+   
+   }
+})
+-------------------------------------------------
+Step 8
+//creating the bird model entity
+var birdEl = document.createElement("a-entity");
+
+birdEl.setAttribute("gltf-model", "./assets/models/flying_bird/scene.gltf");
+--------------------------------------------------
+Step 9
+
+In index.html
+
+<script
+src="https://cdn.jsdelivr.net/gh/donmc
+curdy/aframe-extras@v6.1.1/dist/afra
+me-extras.min.js"></script>
+
+In Collider.js
+
+birdEl.setAttribute("scale", { x: 500, y: 500, z: 500 });
+
+//animated models
+birdEl.setAttribute("animation-mixer", {});
+-----------------------------------------------
+step 10
+
+//Get the terrain element
+var terrainEl = document.querySelector("#terrain");
+
+//append the bird entity as the child of the terrain entity
+terrainEl.appendChild(birdEl);
+----------------------------------------------
+Step 11
+
+ init: function () {
+    for (var i = 1; i <= 20; i++) {
+      //id
+      var id = `hurdle${i}`;
+
+      //position variables
+      var posX = Math.floor(Math.random() * 3000 + -1000);
+      var posY = Math.floor(Math.random() * 2 + -1);
+      var posZ = Math.floor(Math.random() * 3000 + -1000);
+
+      var position = { x: posX, y: posY, z: posZ };
+
+      //call the function
+      this.flyingBirds(id, position);
+    }
+  },
+  
+In terrain index.html
+
+ flying-birds
+----------------------------------------------------------------
+    
+
+   
+   
