@@ -1,0 +1,140 @@
+Step 1
+
+ <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+
+  <a-scene >
+      <!--Camera-->
+      <a-entity position=" 0 1.6 15">
+        <a-camera></a-camera>
+      </a-entity>
+
+      <!--Torus-->
+      <a-entity>
+        <a-torus
+          position="5 5 -5"
+          color="#43ABBE"
+         
+        >
+        </a-torus>
+      </a-entity>
+
+      <!--Sphere-->
+      <a-entity>
+        <a-sphere position="0 5 -5" color="orange" > </a-sphere>
+      </a-entity>
+
+      <!--Floor-->
+      <a-entity>
+        <a-box
+          color="#EF2D5E"
+          position="2.5 -5 -10"
+          rotation="0 0 0"
+          scale="20 1 20"
+          
+        >
+        </a-box>
+      </a-entity>
+    </a-scene>
+
+---------------------------------------------------------------
+Step 2
+
+In torus and Sphere add
+
+dynamic-body
+
+In Box
+
+static-body
+-----------------------------------------------------------
+Step 3
+
+In a-scene
+
+physics="friction: 0.01; restitution: 0.3"
+
+then add
+
+debug:true;
+-------------------------------------------------------
+Step 4
+
+In Torus
+add  dynamic-body="shape:sphere; sphereRadius:2"
+----------------------------------------------------------
+Step 5
+
+In Target.js
+
+ //set the static body attribute of physics system 
+    ringEl.setAttribute("static-body", {
+      shape: "sphere",
+      sphereRadius: 2
+    });
+
+In Collider.js
+
+ //set the static body of the physic system
+    birdEl.setAttribute("static-body", {
+      shape: "sphere",
+      sphereRadius: 5,
+    });
+-------------------------------------------------------------
+Step 6
+
+In Index.html .. in Plane
+
+dynamic-body
+
+dynamic-body="mass: 0"
+----------------------------------------------
+Step 7
+
+Create Game.js
+
+AFRAME.registerComponent("game-play", {
+
+})
+
+In Index.html .. in Plane add
+game-play
+--------------------------------------------------
+Step 8
+
+ schema: {
+    elementId: { type: "string", default: "#ring1" },
+  },
+
+ isCollided: function (elementId) {
+    const element = document.querySelector(elementId);
+    element.addEventListener("collide", (e) => {
+      if (elementId.includes("#ring")) {
+        console.log(elementId + " collision");
+      } else if (elementId.includes("#hurdle")) {
+        console.log("bird collision");
+      }
+    });
+  },
+----------------------------------------------------
+Step 9
+
+  update: function () {
+    this.isCollided(this.data.elementId);
+  },
+---------------------------------------------------
+Step 10
+
+In Collider.js
+
+   birdEl.setAttribute("game-play", {
+      elementId: `#${id}`,
+    });
+
+In Target.js
+
+ ringEl.setAttribute("game-play", {
+      elementId: `#${id}`
+    });
+---------------------------------------------------
+Step 11
+
