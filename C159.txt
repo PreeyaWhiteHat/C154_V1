@@ -30,4 +30,14 @@ step 2
     });
   },
 
+-------------------------------------------------------
+step3 
 
+ tick: function () {
+    const { state } = this.el.getAttribute("tour");
+
+    if (state === "view") {
+      this.hideEl([this.placesContainer]);
+      this.showView();
+    }
+  },
