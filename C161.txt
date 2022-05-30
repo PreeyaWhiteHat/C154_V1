@@ -1,0 +1,139 @@
+step 1
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Shooting Game in Virtual Reality</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>   
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+    
+  </head>
+
+ <body>
+    <a-scene id="scene">
+      
+      <!--Light-->
+      <a-entity light="type: ambient; color: yellow; intensity:0.5"></a-entity>
+
+      <!--Camera and Cursor-->
+      <a-entity
+        id="camera"
+        camera
+        position="0 1.6 0"
+        wasd-controls
+        look-controls="pointerLockEnabled: false"        
+      >
+               
+      </a-entity>
+
+      <!--Ground-->
+      <a-plane
+        id="ground"
+        repeat="5 5"
+        position="0 1 0"
+        rotation="-90 0 0"
+        height="200"
+        width="200"
+        color="#FBF2D4"
+        static-body
+        visible="true"
+      >
+      </a-plane>
+
+     
+    </a-scene>
+  </body>
+</html>
+---------------------------------------------------------
+step 2
+
+<!--Boxes-->
+      <a-box position="-2 1.5 -10" color="tomato" depth="1" height="1" width="1"></a-box>
+
+      <a-box position="0 1.5 -10" color="tomato" depth="1" height="1" width="1"></a-box>
+
+      <a-box position="2 1.5 -10" color="tomato" depth="1" height="1" width="1"></a-box>
+
+      <a-box position="-1 2.5 -10" color="tomato" depth="1" height="1" width="1"></a-box>
+
+      <a-box position="1 2.5 -10" color="tomato" depth="1" height="1" width="1"></a-box>
+
+      <a-box position="0 3.5 -10" color="tomato" depth="1" height="1" width="1"></a-box>
+---------------------------------------------------------
+step 3
+
+Create shoot.js
+
+AFRAME.registerComponent("bullets", {
+  init: function () {
+    this.shootBullet();
+  },
+  shootBullet: function () {
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "z") {
+        var bullet = document.createElement("a-entity");
+
+        bullet.setAttribute("geometry", {
+          primitive: "sphere",
+          radius: 0.1,
+        });
+
+        bullet.setAttribute("material", "color", "black");
+
+       
+      }
+    });
+  },
+});
+----------------------------------------------------
+step 4
+
+   var cam = document.querySelector("#camera");
+
+        pos = cam.getAttribute("position");
+
+        bullet.setAttribute("position", {
+          x: pos.x,
+          y: pos.y,
+          z: pos.z,
+        });
+
+cam.appendChild(bullet);
+
+-------------------------------------------------------
+step 5
+
+   bullet.setAttribute("velocity", {x:0,y:0,z:-1});
+------------------------------------------------------------
+step 6
+
+ var scene = document.querySelector("#scene"); 
+ scene.appendChild(bullet);
+----------------------------------------------------
+step 7
+
+ var camera = document.querySelector("#camera").object3D;
+
+        //get the camera direction as Three.js Vector
+        var direction = new THREE.Vector3();
+        camera.getWorldDirection(direction);
+
+        //set the velocity and it's direction
+        bullet.setAttribute("velocity", direction.multiplyScalar(-10));
+
+        var scene = document.querySelector("#scene");
+
+        scene.appendChild(bullet);
+--------------------------------------------------------
+step 8
+
+  <!--Assets-->
+      <a-assets>        
+        <a-asset-item
+          id="shooter"
+          src="./models/shooter/gun.gltf"
+        ></a-asset-item>
+        
+      </a-assets>
+
+----------------------------------------------
