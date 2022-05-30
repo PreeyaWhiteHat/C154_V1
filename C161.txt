@@ -136,4 +136,13 @@ step 8
         
       </a-assets>
 
+
+<a-entity
+            id="weapon"
+            gltf-model="#shooter"
+            position="0 -4.4 3"
+            rotation="0 180 0"
+            scale="0.35 1 1"          
+          >
+        </a-entity>
 ----------------------------------------------
