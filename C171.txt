@@ -50,7 +50,9 @@ In markerHandler.js
       "saturday"
     ];
 
-
+//Get the dish based on ID
+    var dish = dishes.filter(dish => dish.id === markerId)[0];
+    
  //Check if the dish is available today
     if (dish.unavailable_days.includes(days[todaysDay])) {
       swal({
@@ -82,6 +84,9 @@ and In addMarker.js too
       "friday",
       "saturday"
     ];
+    
+    //Get the dish based on ID
+    var dish = dishes.filter(dish => dish.id === markerId)[0];
 
 if (!dish.unavailable_days.includes(days[todaysDay])) {
 }
