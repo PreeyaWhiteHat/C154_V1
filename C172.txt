@@ -1,0 +1,184 @@
+step 1
+
+In addButton.js
+
+ // 3. Create the Summary & Total Bill button
+    var button3 = document.createElement("button");
+    button3.innerHTML = "ORDER SUMMARY";
+    button3.setAttribute("id", "order-summary-button");
+    button3.setAttribute("class", "btn btn-warning ml-3");
+
+------------------------------------------------------------------
+step 2
+
+In MarkerHandler.js
+
+  var orderSummaryButtton = document.getElementById("order-summary-button");
+
+  orderSummaryButtton.addEventListener("click", () =>
+        this.handleOrderSummary()
+      );
+
+
+  handleOrderSummary: async function () {
+}
+------------------------------------------------------------
+step 3
+
+ getOrderSummary: async function (tNumber) {
+    return await firebase
+      .firestore()
+      .collection("tables")
+      .doc(tNumber)
+      .get()
+      .then(doc => doc.data());
+  },
+
+In handleOrderSummary: function
+
+
+ //Getting Table Number
+    var tNumber;
+    tableNumber <= 9 ? (tNumber = `T0${tableNumber}`) : `T${tableNumber}`;
+
+    //Getting Order Summary from database
+    var orderSummary = await this.getOrderSummary(tNumber);
+-----------------------------------------------------------
+step 4
+
+Order Summary Boilerplate in Index.html
+
+--------------------------------------------------
+step 5
+
+In handleOrderSummary: function
+
+    //Changing modal div visibility
+    var modalDiv = document.getElementById("modal-div");
+    modalDiv.style.display = "flex";
+
+    //Get the table element
+    var tableBodyTag = document.getElementById("bill-table-body");
+
+    //Removing old tr(table row) data
+    tableBodyTag.innerHTML = "";
+------------------------------------------------------
+step 6
+
+
+In handleOrderSummary: function
+
+//Get the cuurent_orders key 
+    var currentOrders = Object.keys(orderSummary.current_orders);
+
+    currentOrders.map(i => {
+
+      //Create table row
+      var tr = document.createElement("tr");
+
+      //Create table cells/columns for ITEM NAME, PRICE, QUANTITY & TOTAL PRICE
+      var item = document.createElement("td");
+      var price = document.createElement("td");
+      var quantity = document.createElement("td");
+      var subtotal = document.createElement("td");
+
+      //Add HTML content 
+      item.innerHTML = orderSummary.current_orders[i].item;
+
+      price.innerHTML = "$" + orderSummary.current_orders[i].price;
+      price.setAttribute("class", "text-center");
+
+      quantity.innerHTML = orderSummary.current_orders[i].quantity;
+      quantity.setAttribute("class", "text-center");
+
+      subtotal.innerHTML = "$" + orderSummary.current_orders[i].subtotal;
+      subtotal.setAttribute("class", "text-center");
+
+      //Append cells to the row
+      tr.appendChild(item);
+      tr.appendChild(price);
+      tr.appendChild(quantity);
+      tr.appendChild(subtotal);
+
+      //Append row to the table
+      tableBodyTag.appendChild(tr);
+
+ });
+------------------------------------------------------------------------
+step 7
+
+In handleOrderSummary: function
+
+  //Create a table row to Total bill
+    var totalTr = document.createElement("tr");
+
+    //Create a empty cell (for not data)
+    var td1 = document.createElement("td");
+    td1.setAttribute("class", "no-line");
+
+    //Create a empty cell (for not data)
+    var td2 = document.createElement("td");
+    td1.setAttribute("class", "no-line");
+
+    //Create a cell for TOTAL
+    var td3 = document.createElement("td");
+    td1.setAttribute("class", "no-line text-center");
+
+    //Create <strong> element to emphasize the text
+    var strongTag = document.createElement("strong");
+    strongTag.innerHTML = "Total";
+
+    td3.appendChild(strongTag);
+
+    //Create cell to show total bill amount
+    var td4 = document.createElement("td");
+    td1.setAttribute("class", "no-line text-right");
+    td4.innerHTML = "$" + orderSummary.total_bill;
+
+    //Append cells to the row
+    totalTr.appendChild(td1);
+    totalTr.appendChild(td2);
+    totalTr.appendChild(td3);
+    totalTr.appendChild(td4);
+
+    //Append the row to the table
+    tableBodyTag.appendChild(totalTr);
+------------------------------------------------------------------
+step 8
+
+In MarkerHandler.js
+
+    var payButton = document.getElementById("pay-button");
+
+ payButton.addEventListener("click", () => this.handlePayment());
+
+ handlePayment: function () {
+    // Close Modal
+    document.getElementById("modal-div").style.display = "none";
+
+    // Getting Table Number
+    var tNumber;
+    tableNumber <= 9 ? (tNumber = `T0${tableNumber}`) : `T${tableNumber}`;
+
+    //Reseting current orders and total bill
+    firebase
+      .firestore()
+      .collection("tables")
+      .doc(tNumber)
+      .update({
+        current_orders: {},
+        total_bill: 0
+      })
+      .then(() => {
+        swal({
+          icon: "success",
+          title: "Thanks For Paying !",
+          text: "We Hope You Enjoyed Your Food !!",
+          timer: 2500,
+          buttons: false
+        });
+      });
+  },
+------------------------------------------------------------------
+
+
